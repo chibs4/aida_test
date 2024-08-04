@@ -12,6 +12,7 @@ app = FastAPI(
     openapi_url="/api/openapi.json",
 )
 app.include_router(router)
+
 register_tortoise(
     app,
     db_url=str(settings.POSTGRES_URI),

@@ -6,6 +6,7 @@ from pydantic import AnyHttpUrl, constr
 from model import LinkRealation
 from utils import generate_random_link
 import errors
+from settings import settings
 
 router = APIRouter()
 
@@ -23,7 +24,8 @@ async def create_link(long_url: AnyHttpUrl):
             new_model = await LinkRealation.create(
                 original_link=long_url, new_link=new_link
             )
-            return new_model.new_link
+            full_link = f"http://localhost:{settings.SERVER_PORT}/{new_model.new_link}"
+            return full_link
         except IntegrityError:
             continue
     raise errors.failed_to_generate()
