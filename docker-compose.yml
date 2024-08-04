@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  link_changer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: link_changer
+    command: python main.py 
+    env_file:
+      - .env
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    environment:
+      - port=${SERVER_PORT}
+    depends_on:
+      - links_db
+
+  links_db:
+    image: postgres
+    env_file: .env
+    ports:
+      - "5432:5432"
+    container_name: "${POSTGRES_SERVER}"
+
+  
+
